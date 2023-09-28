@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import ImageGallery from '../ImageGallery/ImageGallery';
+import { ColorRing } from 'react-loader-spinner';
 import css from './App.module.css'
+import axios from 'axios';
 
-import Searchbar from 'components/Searchbar';
-class App extends Component {
+import Searchbar from '../Searchbar';
+ class App extends Component {
   state = {
     query: '',
     page: 1,
@@ -12,6 +15,24 @@ class App extends Component {
     isModalOpen: false,
     largeImageUrl: '',
   };
+   makeApiCall(query, page) {
+    if (page > this.state.totalPages && page !== 1) {
+      return;
+    }
+    const PER_PAGE = 12;
+    const API_KEY = '39726454-f4ec8b577ca1a4ed4aebbc524';
+    const searchUrl = `https://pixabay.com/api/?q=${encodeURIComponent(
+      query
+    )}&page=${page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${PER_PAGE}`;
+
+    this.setState({ isLoading: true });
+    axios.get(searchUrl).then(response => {
+      const totalPages = Math.round(response.data.totalHits / PER_PAGE);
+      this.updateState(response.data.hits, totalPages, true);
+      this.setState({ isLoading: false });
+    });
+  }
+
    handleSearch = searchValue => {
     if (searchValue !== '') {
       if (searchValue !== this.state.query) {
@@ -25,6 +46,21 @@ class App extends Component {
     return (
       <div className={css.App}>
         <Searchbar onSubmit={this.handleSearch} />
+        <ImageGallery
+          images={this.state.images}
+          onModalOpen={this.handleImageClick}
+        />
+          {this.state.isLoading && (
+          <ColorRing
+            visible={true}
+            height="80"
+            width="80"
+            ariaLabel="blocks-loading"
+            wrapperStyle={{ margin: '0 auto' }}
+            wrapperClass="blocks-wrapper"
+            colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+          />
+        )}
       </div>
     );
   }
