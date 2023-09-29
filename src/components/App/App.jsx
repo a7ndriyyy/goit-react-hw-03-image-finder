@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import Button from '../Button/Button';
+import Modal from '../Modal/Modal';
 
 import { ColorRing } from 'react-loader-spinner';
 
@@ -74,6 +75,14 @@ import Searchbar from '../Searchbar';
           images={this.state.images}
           onModalOpen={this.handleImageClick}
         />
+        {this.state.isModalOpen && (
+          <Modal
+            largeImageUrl={this.state.largeImageUrl}
+            onClose={this.handleModalClose}
+            onClickClose={this.handleModalClickClose}
+            id={this.state.images.id}
+          />
+        )}
           {this.state.isLoading && (
           <ColorRing
             visible={true}
