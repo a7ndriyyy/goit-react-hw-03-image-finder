@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import ImageGallery from '../ImageGallery/ImageGallery';
+import Button from '../Button/Button';
+
 import { ColorRing } from 'react-loader-spinner';
+
 import css from './App.module.css'
+
 import axios from 'axios';
 
 import Searchbar from '../Searchbar';
@@ -81,6 +85,10 @@ import Searchbar from '../Searchbar';
             colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
           />
         )}
+        {this.state.totalPages > 1 &&
+          this.state.page < this.state.totalPages && (
+            <Button getMoreImage={this.fetchMoreImages} />
+          )}
       </div>
     );
   }
