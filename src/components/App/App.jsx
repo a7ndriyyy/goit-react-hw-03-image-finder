@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import Button from '../Button/Button';
 import Modal from '../Modal/Modal';
+import Searchbar from '../Searchbar';
 
 import { ColorRing } from 'react-loader-spinner';
 
@@ -9,7 +10,7 @@ import css from './App.module.css'
 
 import axios from 'axios';
 
-import Searchbar from '../Searchbar';
+
  class App extends Component {
   state = {
     query: '',
@@ -53,7 +54,29 @@ import Searchbar from '../Searchbar';
     } else {
       this.setState({ totalPages, images });
     }
-  }
+   }
+   
+   handleImageClick = largeImageUrl => {
+     this.setState({
+       largeImageUrl,
+       isModalOpen: true,
+     });
+   };
+
+   handleModalClickClose = event => {
+     if (event.target.id === 'modal' && this.state.isModalOpen) {
+       this.setState({
+         isModalOpen: false,
+       });
+     }
+   };
+
+   handleModalClose = () => {
+     this.setState({
+       isModalClose: false,
+     });
+   }
+
   fetchMoreImages = () => {
     this.setState(prevState => {
       return { page: prevState.page + 1 };
