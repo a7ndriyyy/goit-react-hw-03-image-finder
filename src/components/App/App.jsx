@@ -41,7 +41,27 @@ import Searchbar from '../Searchbar';
         this.setState({ query: searchValue }, () => {});
       }
     }
+   };
+   updateState(images, totalPages, add = false) {
+    if (add) {
+      this.setState({ totalPages, images: [...this.state.images, ...images] });
+    } else {
+      this.setState({ totalPages, images });
+    }
+  }
+  fetchMoreImages = () => {
+    this.setState(prevState => {
+      return { page: prevState.page + 1 };
+    });
   };
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.query !== this.state.query ||
+      prevState.page !== this.state.page
+    ) {
+      this.makeApiCall(this.state.query, this.state.page);
+    }
+  }
    render() {
     return (
       <div className={css.App}>
