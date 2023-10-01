@@ -51,7 +51,9 @@ import axios from 'axios';
 
    updateState(images, totalPages, add = false) {
     if (add) {
-      this.setState(prevState => ({ totalPages, images: [...prevState.images, ...images]}));
+      this.setState(prevState => ({
+        totalPages, images: [...prevState.images, ...images],
+      }));
     } else {
       this.setState({ totalPages, images });
     }

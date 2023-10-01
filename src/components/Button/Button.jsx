@@ -2,14 +2,14 @@ import { Component } from 'react';
 import css from './Button.module.css';
 
 
-class Button extends Component{
+class button extends Component{
     render(){
         return (
-            <Button onClick={this.props.getMoreImage} className={css.Button}>
+            <button onClick={this.props.getMoreImage} className={css.Button}>
                 Load More
-            </Button>
+            </button>
         );
   }
 }
 
-export default Button;
+export default button;
