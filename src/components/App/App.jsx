@@ -51,19 +51,19 @@ import axios from 'axios';
 
    updateState(images, totalPages, add = false) {
     if (add) {
-      this.setState({ totalPages, images: [...this.state.images, ...images] });
+      this.setState(prevState => ({ totalPages, images: [...prevState.images, ...images]}));
     } else {
       this.setState({ totalPages, images });
     }
    }
-   componentDidMount() {
-     document.addEventListener('keydown', this.handleKeyPress);
-  }
 
-componentWillUnmount() {
-     document.removeEventListener('keydown', this.handleKeyPress);
-  }
-   
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleKeyPress);
+    }
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyPress);
+    }
+
    handleImageClick = largeImageUrl => {
      this.setState({
        largeImageUrl,
@@ -85,14 +85,13 @@ componentWillUnmount() {
      });
    };
    
-   handleKeyPress = event => {
+handleKeyPress = event => {
   if (event.key === 'Escape' && this.state.isModalOpen) {
     this.setState({
       isModalOpen: false,
     });
   }
 };
-
 
    getImagesFromUrl(searchUrl) {
     axios.get(searchUrl).then(response => {
