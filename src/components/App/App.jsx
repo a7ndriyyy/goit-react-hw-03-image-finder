@@ -27,9 +27,9 @@ import axios from 'axios';
     }
     const PER_PAGE = 12;
     const API_KEY = '39726454-f4ec8b577ca1a4ed4aebbc524';
-    const searchUrl = `https://pixabay.com/api/?q=${encodeURIComponent(
-      query
-    )}&page=${page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${PER_PAGE}`;
+     const searchUrl = `https://pixabay.com/api/?q=${encodeURIComponent(
+       query
+     )}&page=${page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${PER_PAGE}`;
 
     this.setState({ isLoading: true });
     axios.get(searchUrl).then(response => {
@@ -56,6 +56,13 @@ import axios from 'axios';
       this.setState({ totalPages, images });
     }
    }
+   componentDidMount() {
+     document.addEventListener('keydown', this.handleKeyPress);
+  }
+
+componentWillUnmount() {
+     document.removeEventListener('keydown', this.handleKeyPress);
+  }
    
    handleImageClick = largeImageUrl => {
      this.setState({
@@ -77,6 +84,15 @@ import axios from 'axios';
        isModalClose: false,
      });
    };
+   
+   handleKeyPress = event => {
+  if (event.key === 'Escape' && this.state.isModalOpen) {
+    this.setState({
+      isModalOpen: false,
+    });
+  }
+};
+
 
    getImagesFromUrl(searchUrl) {
     axios.get(searchUrl).then(response => {
@@ -91,7 +107,7 @@ import axios from 'axios';
     });
    };
    
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps,prevState) {
     if (
       prevState.query !== this.state.query ||
       prevState.page !== this.state.page
