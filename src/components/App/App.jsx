@@ -48,6 +48,7 @@ import axios from 'axios';
       }
     }
    };
+
    updateState(images, totalPages, add = false) {
     if (add) {
       this.setState({ totalPages, images: [...this.state.images, ...images] });
@@ -75,13 +76,21 @@ import axios from 'axios';
      this.setState({
        isModalClose: false,
      });
-   }
+   };
 
+   getImagesFromUrl(searchUrl) {
+    axios.get(searchUrl).then(response => {
+      const totalPages = Math.round(response.data.totalHits / 12);
+      this.setState({ totalPages, images: response.data.hits });
+    });
+   }
+   
   fetchMoreImages = () => {
     this.setState(prevState => {
       return { page: prevState.page + 1 };
     });
-  };
+   };
+   
   componentDidUpdate(prevProps, prevState) {
     if (
       prevState.query !== this.state.query ||
@@ -89,7 +98,8 @@ import axios from 'axios';
     ) {
       this.makeApiCall(this.state.query, this.state.page);
     }
-  }
+   }
+   
    render() {
     return (
       <div className={css.App}>
