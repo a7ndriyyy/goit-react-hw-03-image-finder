@@ -15,16 +15,3 @@ class Modal extends Component {
     }
 }
 export default Modal;
-//    componentDidMount() {
-//         document.addEventListener('keydown', this.handleKeyPress);
-//     }
-//     componentWillUnmount() {
-//         document.removeEventListener('keydown', this.handleKeyPress);
-//     }
-
-//     handleKeyPress = event => {
-//         if (event.keyCode === 27) {
-//             this.props.onClickClose();
-//         }
-//     };
-// }
